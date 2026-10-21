@@ -1,4 +1,20 @@
-# USGS Earthquake Data Pipeline
+# 🌎 USGS Earthquake Data Pipeline
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Python-3.11-3776AB?logo=python&logoColor=white" alt="Python 3.11">
+  <img src="https://img.shields.io/badge/scikit--learn-Machine%20Learning-F7931E?logo=scikitlearn&logoColor=white" alt="scikit-learn">
+  <img src="https://img.shields.io/badge/Pandas-Data%20Processing-150458?logo=pandas&logoColor=white" alt="Pandas">
+  <img src="https://img.shields.io/badge/SQLite-Database-003B57?logo=sqlite&logoColor=white" alt="SQLite">
+  <img src="https://img.shields.io/badge/Tests-pytest-0A9EDC?logo=pytest&logoColor=white" alt="pytest">
+  <img src="https://img.shields.io/badge/Status-Day%201--3%20Project-success" alt="Project status">
+</p>
+
+<p align="center">
+  <strong>End-to-end earthquake data engineering and machine learning</strong><br>
+  Live USGS data · ETL pipeline · SQLite · Model training and evaluation
+</p>
+
+---
 
 A Python-based data engineering and machine learning project that processes real-time USGS earthquake feed data, stores transformed records in SQLite, and trains models for earthquake magnitude regression and significant-earthquake classification.
 
@@ -7,13 +23,13 @@ A Python-based data engineering and machine learning project that processes real
 
 [GitHub Repository](https://github.com/Chaman4211/usgs-earthquake-data-pipeline) · [Jira Project](https://chamanafzaal.atlassian.net/jira/software/projects/QDP/boards/2)
 
-## Overview
+## 📌 Overview
 
 This project demonstrates an end-to-end workflow for turning earthquake feed data into structured data and machine learning outputs.
 
 It combines data cleaning, feature engineering, preprocessing, ETL, database storage, model training, evaluation, and automated tests in one repository.
 
-## Key Features
+## ✨ Key Features
 
 - **Live data ingestion:** Fetch earthquake records from the USGS all-week GeoJSON feed.
 - **Data cleaning:** Handle invalid or incomplete records through the cleaning pipeline.
@@ -25,7 +41,7 @@ It combines data cleaning, feature engineering, preprocessing, ETL, database sto
 - **Model evaluation:** Compare models with a dummy baseline and evaluate predictive performance.
 - **Testing:** Run automated tests for pipeline, model, and evaluation functionality.
 
-## Pipeline Architecture
+## 🔄 Pipeline Architecture
 
 ```text
 USGS Earthquake Feed
@@ -56,7 +72,7 @@ USGS Earthquake Feed
  Saved Models and Reports
 ```
 
-## Technology Stack
+## 🧰 Technology Stack
 
 | Area | Technologies |
 |---|---|
@@ -69,7 +85,7 @@ USGS Earthquake Feed
 | Development | Jupyter Notebook, Git, GitHub |
 | Environment | Conda |
 
-## Project Structure
+## 📁 Project Structure
 
 ```text
 day1-quake-preprocessing/
@@ -88,16 +104,16 @@ day1-quake-preprocessing/
 └── JIRA_WORK_ITEMS.md    # Jira task documentation
 ```
 
-## Getting Started
+## 🚀 Getting Started
 
-### 1. Clone the repository
+### 1️⃣ Clone the Repository
 
 ```bash
 git clone https://github.com/Chaman4211/usgs-earthquake-data-pipeline.git
 cd usgs-earthquake-data-pipeline
 ```
 
-### 2. Create the Conda environment
+### 2️⃣ Create the Conda Environment
 
 If you have Conda installed:
 
@@ -113,7 +129,7 @@ conda env update -f environment.yml --prune
 conda activate niai-ml
 ```
 
-### 3. Run the ETL pipeline
+### 3️⃣ Run the ETL Pipeline
 
 Fetch the current USGS feed, transform the records, and load the results into SQLite:
 
@@ -129,9 +145,9 @@ python -m quakes.etl --mode merge
 
 Successful execution logs the extraction, transformation, loading, and completion stages.
 
-## Machine Learning
+## 🤖 Machine Learning
 
-### Regression — Earthquake Magnitude
+### 📈 Regression — Earthquake Magnitude
 
 Train a linear regression model:
 
@@ -151,7 +167,7 @@ Train a polynomial regression model:
 python -m quakes.train --task regression --model poly --degree 3 --alpha 10
 ```
 
-### Classification — Significant Earthquakes
+### 🎯 Classification — Significant Earthquakes
 
 Train a logistic regression classifier:
 
@@ -169,7 +185,7 @@ The training workflow evaluates the selected model against a dummy baseline and 
 
 **Note:** Running a training command again can overwrite the corresponding saved model and report.
 
-## Generated Outputs
+## 📦 Generated Outputs
 
 | Output | Purpose |
 |---|---|
@@ -184,7 +200,7 @@ The training workflow evaluates the selected model against a dummy baseline and 
 
 Generated files depend on which pipeline and training commands have been run.
 
-## Testing
+## 🧪 Testing
 
 Run the complete test suite:
 
@@ -202,7 +218,7 @@ pytest -q tests/test_evaluate.py
 
 Tests help verify the ETL, model creation, and evaluation functionality.
 
-## Data Quality and Model Reliability
+## 🛡️ Data Quality and Model Reliability
 
 - Separate training and test data to support evaluation on held-out examples.
 - Exclude target and other leakage-prone fields from model features.
@@ -210,7 +226,7 @@ Tests help verify the ETL, model creation, and evaluation functionality.
 - Compare model performance against a dummy baseline.
 - Use cross-validation on training data where implemented.
 
-## Project Management
+## 📋 Project Management
 
 Development work is tracked in Jira.
 
@@ -218,7 +234,7 @@ Development work is tracked in Jira.
 - [Day 2–3 — ETL and Machine Learning Epic (QDP-13)](https://chamanafzaal.atlassian.net/browse/QDP-13)
 - [GitHub Repository](https://github.com/Chaman4211/usgs-earthquake-data-pipeline)
 
-## Learning Outcomes
+## 🎓 Learning Outcomes
 
 This project demonstrates practical experience with:
 
@@ -229,7 +245,7 @@ This project demonstrates practical experience with:
 - Training and evaluating regression and classification models.
 - Using GitHub, Jira, Conda, and automated tests in a project workflow.
 
-## Data Source
+## 🌐 Data Source
 
 Earthquake data is provided by the [United States Geological Survey (USGS)](https://earthquake.usgs.gov/earthquakes/feed/).
 
