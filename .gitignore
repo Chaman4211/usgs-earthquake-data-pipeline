@@ -28,3 +28,7 @@ htmlcov/
 
 # Generated preprocessing artifacts
 # Keep data/processed outputs in the repository if required for submission.
+
+# Generated ETL runtime artifacts
+logs/
+data/processed/*.db

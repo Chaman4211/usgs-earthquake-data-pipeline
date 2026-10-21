@@ -8,6 +8,7 @@ from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import (
     MinMaxScaler,
     OneHotEncoder,
+    PolynomialFeatures,
     RobustScaler,
     StandardScaler,
 )
@@ -18,24 +19,26 @@ from . import config
 def split_data(df: pd.DataFrame, test_size: float = 0.2):
     """Return X_train, X_test, y_train, y_test using stratified splitting."""
     if config.TARGET not in df.columns:
-        raise ValueError(f"Required target column '{config.TARGET}' is missing.")
+        raise ValueError(f"Target column {config.TARGET!r} is missing.")
 
     y = df[config.TARGET].copy()
     X = df.drop(columns=[config.TARGET, "mag"], errors="ignore").copy()
 
+    stratify = y if y.nunique() > 1 else None
     X_train, X_test, y_train, y_test = train_test_split(
         X,
         y,
         test_size=test_size,
         random_state=config.SEED,
-        stratify=y,
+        stratify=stratify,
     )
-
     return X_train, X_test, y_train, y_test
 
 
-def build_preprocessor(scaler: str = "robust") -> ColumnTransformer:
-    """Build preprocessing pipelines for numeric and categorical columns."""
+def build_preprocessor(
+    scaler: str = "robust", degree: int = 1
+) -> ColumnTransformer:
+    """Build numeric and categorical preprocessing pipelines."""
     scalers = {
         "standard": StandardScaler,
         "minmax": MinMaxScaler,
@@ -43,18 +46,25 @@ def build_preprocessor(scaler: str = "robust") -> ColumnTransformer:
     }
 
     if scaler not in scalers:
-        allowed = ", ".join(scalers)
         raise ValueError(
-            f"Unknown scaler '{scaler}'. Choose one of: {allowed}."
+            f"Unknown scaler {scaler!r}. Choose from {list(scalers)}."
+        )
+    if not isinstance(degree, int) or isinstance(degree, bool) or degree < 1:
+        raise ValueError("degree must be a positive integer.")
+
+    numeric_steps = [("imputer", SimpleImputer(strategy="median"))]
+
+    if degree > 1:
+        numeric_steps.append(
+            (
+                "polynomial",
+                PolynomialFeatures(degree=degree, include_bias=False),
+            )
         )
 
-    numeric_pipeline = Pipeline(
-        steps=[
-            ("imputer", SimpleImputer(strategy="median")),
-            ("scaler", scalers[scaler]()),
-        ]
-    )
+    numeric_steps.append(("scaler", scalers[scaler]()))
 
+    numeric_pipeline = Pipeline(steps=numeric_steps)
     nominal_pipeline = Pipeline(
         steps=[
             ("imputer", SimpleImputer(strategy="most_frequent")),

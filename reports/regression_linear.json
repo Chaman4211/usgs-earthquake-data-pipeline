@@ -1,0 +1,38 @@
+{
+  "task": "regression",
+  "model": "linear",
+  "target": "mag",
+  "training_rows": 1405,
+  "testing_rows": 352,
+  "baseline_test_metrics": {
+    "mae": 0.9522822998480052,
+    "rmse": 1.3008637836887158,
+    "r2": -0.003033177204126991
+  },
+  "model_test_metrics": {
+    "mae": 0.35474533231007754,
+    "rmse": 0.47103257378953434,
+    "r2": 0.8684915875430947
+  },
+  "cross_validation": {
+    "mean": -0.4719755600092238,
+    "std": 0.016917498647263985,
+    "scores": [
+      -0.4857647141273301,
+      -0.45014546670478567,
+      -0.4553009958297199,
+      -0.4938424103228694,
+      -0.47482421306141426
+    ],
+    "mean_rmse": 0.4719755600092238,
+    "std_rmse": 0.016917498647263985,
+    "fold_rmse": [
+      0.4857647141273301,
+      0.45014546670478567,
+      0.4553009958297199,
+      0.4938424103228694,
+      0.47482421306141426
+    ]
+  },
+  "model_path": "/home/chaman-afzaal/projects/day1-quake-student-start/day1-quake-preprocessing/models/regression_linear.joblib"
+}
