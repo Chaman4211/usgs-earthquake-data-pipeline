@@ -1,6 +1,16 @@
-# USGS Earthquake Data Pipeline — Day 2–3 Lab
+# USGS Earthquake Data Pipeline
 
-A beginner-friendly earthquake data pipeline that fetches USGS earthquake records, cleans and engineers features, stores the results in SQLite, and trains machine-learning models.
+A beginner-friendly project combining Day 1 data preprocessing and feature engineering with Day 2–3 ETL, model training, and evaluation.
+
+The pipeline uses the USGS earthquake feed to prepare earthquake data, engineer features, prevent target leakage, store processed records in SQLite, and train regression and classification models.
+
+## Project scope
+
+- **Day 1:** Data cleaning, feature engineering, preprocessing, and train/test splitting.
+- **Day 2:** ETL pipeline, logging, and SQLite data storage.
+- **Day 3:** Scikit-learn regression and classification, evaluation, and model saving.
+
+See `ANSWERS.md` for Day 1 notes and `ANSWERS_ML.md` for Day 2–3 answers.
 
 ## Requirements
 
