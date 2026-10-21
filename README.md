@@ -1,137 +1,239 @@
 # USGS Earthquake Data Pipeline
 
-A beginner-friendly project combining Day 1 data preprocessing and feature engineering with Day 2–3 ETL, model training, and evaluation.
+A Python-based data engineering and machine learning project that processes real-time USGS earthquake feed data, stores transformed records in SQLite, and trains models for earthquake magnitude regression and significant-earthquake classification.
 
-The pipeline uses the USGS earthquake feed to prepare earthquake data, engineer features, prevent target leakage, store processed records in SQLite, and train regression and classification models.
+**Project:** NIAI AI/ML Program — Module 3  
+**Scope:** Day 1–3 | Data Preprocessing, ETL, and Machine Learning
 
-## Project scope
+[GitHub Repository](https://github.com/Chaman4211/usgs-earthquake-data-pipeline) · [Jira Project](https://chamanafzaal.atlassian.net/jira/software/projects/QDP/boards/2)
 
-- **Day 1:** Data cleaning, feature engineering, preprocessing, and train/test splitting.
-- **Day 2:** ETL pipeline, logging, and SQLite data storage.
-- **Day 3:** Scikit-learn regression and classification, evaluation, and model saving.
+## Overview
 
-See `ANSWERS.md` for Day 1 notes and `ANSWERS_ML.md` for Day 2–3 answers.
+This project demonstrates an end-to-end workflow for turning earthquake feed data into structured data and machine learning outputs.
 
-## Requirements
+It combines data cleaning, feature engineering, preprocessing, ETL, database storage, model training, evaluation, and automated tests in one repository.
 
-- Conda
-- Python 3.11
-- Internet connection for the live USGS feed
+## Key Features
 
-## Environment setup
+- **Live data ingestion:** Fetch earthquake records from the USGS all-week GeoJSON feed.
+- **Data cleaning:** Handle invalid or incomplete records through the cleaning pipeline.
+- **Feature engineering:** Transform raw earthquake attributes into model-ready features.
+- **Preprocessing:** Prepare data for training and testing while avoiding target leakage.
+- **ETL pipeline:** Extract, transform, and load earthquake records with logging.
+- **SQLite storage:** Persist transformed earthquake records in a local database.
+- **Machine learning:** Train regression and classification models with scikit-learn.
+- **Model evaluation:** Compare models with a dummy baseline and evaluate predictive performance.
+- **Testing:** Run automated tests for pipeline, model, and evaluation functionality.
+
+## Pipeline Architecture
+
+```text
+USGS Earthquake Feed
+        |
+        v
+   Data Extraction
+        |
+        v
+ Cleaning and Validation
+        |
+        v
+ Feature Engineering
+        |
+        +----------------------+
+        |                      |
+        v                      v
+ Preprocessing             ETL Pipeline
+ Train/Test Split               |
+        |                       v
+        |                  SQLite Database
+        v
+ Model Training
+        |
+        v
+ Model Evaluation
+        |
+        v
+ Saved Models and Reports
+```
+
+## Technology Stack
+
+| Area | Technologies |
+|---|---|
+| Language | Python 3.11 |
+| Data processing | Pandas, NumPy |
+| Machine learning | scikit-learn |
+| Data storage | SQLite |
+| Serialization | Joblib |
+| Testing | pytest |
+| Development | Jupyter Notebook, Git, GitHub |
+| Environment | Conda |
+
+## Project Structure
+
+```text
+day1-quake-preprocessing/
+├── quakes/              # ETL, cleaning, features, models and training
+├── tests/               # Automated tests
+├── notebooks/           # Scikit-learn learning notebook
+├── data/
+│   ├── processed/       # Processed CSV files, database and preprocessor
+│   └── stream/          # Stream input data
+├── models/              # Saved machine learning models
+├── reports/             # Evaluation reports
+├── logs/                # ETL logs
+├── environment.yml      # Conda environment specification
+├── ANSWERS.md            # Day 1 task answers
+├── ANSWERS_ML.md         # Day 2–3 machine learning answers
+└── JIRA_WORK_ITEMS.md    # Jira task documentation
+```
+
+## Getting Started
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/Chaman4211/usgs-earthquake-data-pipeline.git
+cd usgs-earthquake-data-pipeline
+```
+
+### 2. Create the Conda environment
+
+If you have Conda installed:
+
+```bash
+conda env create -f environment.yml
+conda activate niai-ml
+```
+
+If the environment already exists, update it instead:
 
 ```bash
 conda env update -f environment.yml --prune
 conda activate niai-ml
 ```
 
-## Run the ETL pipeline
+### 3. Run the ETL pipeline
 
-Batch mode fetches the USGS feed, applies cleaning and feature engineering, and upserts records into SQLite.
+Fetch the current USGS feed, transform the records, and load the results into SQLite:
 
 ```bash
 python -m quakes.etl --mode batch
 ```
 
-Merge mode includes available stream JSONL files:
+To run the merge mode, which also incorporates stream input data:
 
 ```bash
 python -m quakes.etl --mode merge
 ```
 
-Database: `data/processed/quakes.db`
+Successful execution logs the extraction, transformation, loading, and completion stages.
 
-Logs: `logs/etl.log`
+## Machine Learning
 
-## Train regression models
+### Regression — Earthquake Magnitude
+
+Train a linear regression model:
 
 ```bash
 python -m quakes.train --task regression --model linear
+```
+
+Train a Ridge regression model:
+
+```bash
 python -m quakes.train --task regression --model ridge --alpha 1
+```
+
+Train a polynomial regression model:
+
+```bash
 python -m quakes.train --task regression --model poly --degree 3 --alpha 10
 ```
 
-## Train classification models
+### Classification — Significant Earthquakes
+
+Train a logistic regression classifier:
 
 ```bash
 python -m quakes.train --task classification --model logistic
+```
+
+Train with class balancing enabled:
+
+```bash
 python -m quakes.train --task classification --model logistic --balanced
 ```
 
-The training script compares the selected model with a dummy baseline. It evaluates the test split and performs cross-validation on training data. Classification threshold selection uses out-of-fold training predictions.
+The training workflow evaluates the selected model against a dummy baseline and uses training-data cross-validation for model assessment and threshold selection where implemented.
 
-## Output files
+**Note:** Running a training command again can overwrite the corresponding saved model and report.
 
-- `models/`: serialized trained models (`.joblib`)
-- `reports/`: JSON evaluation reports
-- `data/processed/`: processed data and SQLite database
-- `logs/etl.log`: ETL log
+## Generated Outputs
 
-Note: running the same model and task again overwrites its existing model and report files.
+| Output | Purpose |
+|---|---|
+| `data/processed/train.csv` | Training dataset |
+| `data/processed/test.csv` | Held-out test dataset |
+| `data/processed/preprocessor.joblib` | Saved preprocessing object |
+| `data/processed/quakes.db` | SQLite database |
+| `data/stream/stream.jsonl` | Stream input records |
+| `models/` | Serialized machine learning models |
+| `reports/` | Model evaluation reports |
+| `logs/etl.log` | ETL execution logs |
 
-## Tests
+Generated files depend on which pipeline and training commands have been run.
+
+## Testing
+
+Run the complete test suite:
 
 ```bash
 pytest -q
+```
+
+Run individual test groups:
+
+```bash
 pytest -q tests/test_etl.py
 pytest -q tests/test_models.py
 pytest -q tests/test_evaluate.py
 ```
 
-## Schedule hourly ETL on Linux
+Tests help verify the ETL, model creation, and evaluation functionality.
 
-1. Find the absolute path to your project:
+## Data Quality and Model Reliability
 
-   ```bash
-   pwd
-   ```
+- Separate training and test data to support evaluation on held-out examples.
+- Exclude target and other leakage-prone fields from model features.
+- Fit preprocessing steps on training data rather than using information from the test set.
+- Compare model performance against a dummy baseline.
+- Use cross-validation on training data where implemented.
 
-2. Find the Conda executable:
+## Project Management
 
-   ```bash
-   which conda
-   ```
+Development work is tracked in Jira.
 
-3. Open your crontab:
+- [Day 1 — Data Preprocessing Epic (QDP-1)](https://chamanafzaal.atlassian.net/browse/QDP-1)
+- [Day 2–3 — ETL and Machine Learning Epic (QDP-13)](https://chamanafzaal.atlassian.net/browse/QDP-13)
+- [GitHub Repository](https://github.com/Chaman4211/usgs-earthquake-data-pipeline)
 
-   ```bash
-   crontab -e
-   ```
+## Learning Outcomes
 
-4. Add an hourly entry, replacing the example paths with your actual paths:
+This project demonstrates practical experience with:
 
-   ```cron
-   0 * * * * cd /home/YOUR_USER/path/to/day1-quake-preprocessing && /home/YOUR_USER/anaconda3/envs/niai-ml/bin/python -m quakes.etl --mode batch >> logs/cron.log 2>&1
-   ```
+- Building a structured data processing pipeline.
+- Cleaning and transforming real-world data.
+- Working with ETL, logging, and relational data storage.
+- Preparing data for machine learning while considering leakage.
+- Training and evaluating regression and classification models.
+- Using GitHub, Jira, Conda, and automated tests in a project workflow.
 
-This runs ETL at the start of each hour. Ensure the project path and Python executable are correct. The computer must be on, and the network must be available.
+## Data Source
 
-## Schedule hourly ETL on Windows
+Earthquake data is provided by the [United States Geological Survey (USGS)](https://earthquake.usgs.gov/earthquakes/feed/).
 
-1. Open **Task Scheduler** and choose **Create Basic Task**.
-2. Name it `USGS Earthquake ETL`.
-3. Select **Daily**, then configure the task to repeat every **1 hour** for **1 day** in the advanced trigger settings.
-4. Set the action to **Start a program**.
-5. Set **Program/script** to the full path of the Python executable inside your `niai-ml` environment.
-6. Set **Add arguments** to:
+---
 
-   ```text
-   -m quakes.etl --mode batch
-   ```
+**Project status:** Day 1–3 implementation and testing.
 
-7. Set **Start in** to the full project directory.
-8. Save the task and use Task Scheduler's **Run** action to test it.
-
-These scheduling examples are instructions only; no scheduled task is created automatically.
-
-## Notebook
-
-Open the Day 2–3 notebook with:
-
-```bash
-jupyter lab
-```
-
-Notebook: `notebooks/day2-3_part1_sklearn_basics.ipynb`
-
-Complete all cells and answer the notebook questions before submitting.
