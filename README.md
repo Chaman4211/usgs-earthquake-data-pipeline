@@ -18,7 +18,7 @@
 
 A Python-based data engineering and machine learning project that processes real-time USGS earthquake feed data, stores transformed records in SQLite, and trains models for earthquake magnitude regression and significant-earthquake classification.
 
-**Project:** NIAI AI/ML Program — Module 3  
+**Project:** USGS Earthquake Data Pipeline  
 **Scope:** Day 1–3 | Data Preprocessing, ETL, and Machine Learning
 
 [GitHub Repository](https://github.com/Chaman4211/usgs-earthquake-data-pipeline) · [Jira Project](https://chamanafzaal.atlassian.net/jira/software/projects/QDP/boards/2)
